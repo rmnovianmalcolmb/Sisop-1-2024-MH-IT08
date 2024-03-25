@@ -134,9 +134,9 @@ Ini adalah sistem registrasi pengguna sederhana yang diimplementasikan dalam skr
 - Modifikasi kriteria kata sandi atau logika penugasan peran sesuai kebutuhan.
 - Tangani kasus-kasus error seperti kegagalan menulis file atau input yang tidak valid.
 
-##SOAL NOMOR 3
+## SOAL NOMOR 3
 
-###awal.sh
+### awal.sh
 
 1. Mendownload file genshin.zip yang berisi genshin_character.zip dan list_character.csv, lalu mengekstrak genshin_character.zip
 ```bash
