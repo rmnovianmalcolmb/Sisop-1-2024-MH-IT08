@@ -91,4 +91,48 @@ Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. 
 6. **Menu Admin**:
    - Jika pengguna memiliki peran admin, mereka dapat mengakses menu admin untuk melakukan tugas administratif.
 
+# SKRIP REGISTER.SH
+
+Ini adalah sistem registrasi pengguna sederhana yang diimplementasikan dalam skrip Bash. Skrip ini memungkinkan pengguna untuk mendaftar dengan alamat email yang unik, nama pengguna, pertanyaan keamanan beserta jawabannya, dan kata sandi yang kuat sesuai dengan kriteria tertentu.
+
+## Fitur-fitur
+
+- **Validasi Email:** Memeriksa apakah email yang dimasukkan oleh pengguna sudah unik.
+- **Enkripsi Kata Sandi:** Mengenkripsi kata sandi pengguna menggunakan basis64.
+- **Validasi Keamanan Kata Sandi:** Memastikan bahwa kata sandi memenuhi kriteria tertentu (panjang minimum, huruf besar, huruf kecil, angka, simbol, dan tidak mirip dengan informasi sensitif lainnya).
+- **Penugasan Peran:** Menetapkan peran "admin" untuk email yang mengandung kata "admin" dan "user" untuk yang lainnya.
+- **Pencatatan Log:** Mencatat percobaan registrasi dan hasilnya dalam file `auth.log`.
+
+## Cara Menggunakan
+
+1. **Jalankan Skrip:**
+   - Jalankan skrip di terminal: `./User.sh`
+
+2. **Proses Registrasi:**
+   - Masukkan alamat email yang unik.
+   - Berikan nama pengguna.
+   - Tentukan pertanyaan keamanan beserta jawabannya.
+   - Masukkan kata sandi yang kuat sesuai dengan kriteria yang ditentukan.
+
+3. **Pencatatan Log:**
+   - Percobaan registrasi dan hasilnya akan dicatat dalam file `auth.log`.
+
+## Persyaratan
+
+- Lingkungan shell Bash
+- Perintah `base64` untuk enkripsi kata sandi
+
+## Struktur File
+
+- `User.sh`: Skrip utama untuk registrasi pengguna.
+- `users.txt`: File untuk menyimpan data pengguna yang terdaftar.
+- `auth.log`: File log untuk percobaan registrasi dan hasilnya.
+
+## Catatan
+
+- Pastikan bahwa skrip dapat dieksekusi (`chmod +x User.sh`).
+- Modifikasi kriteria kata sandi atau logika penugasan peran sesuai kebutuhan.
+- Tangani kasus-kasus error seperti kegagalan menulis file atau input yang tidak valid.
+
+
 
