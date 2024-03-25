@@ -45,7 +45,7 @@ Tujuan dari script bash adalah untuk menganalisis data dari file.csv. Skrip ini 
 - **Head Command**: Digunakan untuk menampilkan sebagian dari hasil output.
 
 ## Penggunaan
-1. Pastikan Anda memiliki izin eksekusi untuk skrip bash.
+   Pastikan Anda memiliki izin eksekusi untuk skrip bash.
+   Eksekusi Command dibawah terlebih dahulu agar mendapatkan izin
    ```bash
-   Menggunakan Command Seperti Ini
    chmod +x sales_analysis.sh
