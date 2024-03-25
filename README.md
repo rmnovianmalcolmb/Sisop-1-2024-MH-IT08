@@ -1,5 +1,6 @@
-## SOAL NOMOR 1
-
+# SOAL NOMOR 1
+Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
+##Langkah Langkah
 1. **Unduh Data Penjualan**
    - Jika file `Sandbox.csv` belum ada, skrip akan mengunduhnya dari Google Drive menggunakan perintah `wget`.
      Untuk Perintah ini saya menggunakan command berikut:
