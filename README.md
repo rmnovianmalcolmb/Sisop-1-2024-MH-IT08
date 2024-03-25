@@ -195,5 +195,59 @@ rm list_character.csv
 rm genshin_character.zip
 rm genshin.zip
 ```
+### search.sh
 
+1. Akses direktori genshin_character dan set found untuk penanda
+```bash
+cd genshin_character
+found=0
+``` 
+
+2. Membuka semua folder region dan mensteghide semua file
+```bash
+for region in *; do
+  if [ -d "$region" ]; then
+    for file_jpg in "$region"/*.jpg; do
+      if [ -f "$file_jpg" ]; then
+        file_basename=$(basename "$file_jpg")
+        file_name="${file_basename%.*}"
+        steghide extract -sf "$file_jpg" -p "" -xf "$file_name.txt"
+```
+3. Mendecode hasil steghide setiap file
+```bash
+        file_steg="$file_name.txt"
+        steg_code=$(<"$file_steg")
+        steg_res=$(echo -n "$steg_code" | base64 --decode 2>/dev/null)
+```
+4. Mengecek apakah hasil decode mengandung http
+```bash
+        if [[ "$steg_res" == *http* ]]; then
+          echo "[$(date '+%d/%m/%y %H:%M:%S')] [FOUND] [/home/ubuntu/soal_3/genshin_character/$region/$file_basename]" >> "image.log"
+          cat image.log
+          echo "$steg_res" > "$file_steg"
+          wget "$steg_res"
+          found=1  
+          break
+        else
+          echo "[$(date '+%d/%m/%y %H:%M:%S')] [NOT FOUND] [/home/ubuntu/soal_3/genshin_character/$region/$file_basename]" >> "image.log"
+          rm "$file_steg"
+        fi
+      fi
+      sleep 1
+    done
+  fi
+```
+
+5.Jika ditemukan maka menghentikan loop
+```bash
+  if [ "$found" -eq 1 ]; then  
+    break
+  fi
+done
+```
+
+6. Memindahkan file
+```bash
+mv /home/ubuntu/soal_3/genshin_character/*.{jpg,txt,log} /home/ubuntu/soal_3/
+```
 
