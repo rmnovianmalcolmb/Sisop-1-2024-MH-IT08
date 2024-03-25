@@ -43,9 +43,3 @@ Tujuan dari script bash adalah untuk menganalisis data dari file.csv. Skrip ini 
 - **Awk Command**: Digunakan untuk memproses dan menganalisis baris-baris dari file CSV.
 - **Sort Command**: Digunakan untuk mengurutkan hasil output.
 - **Head Command**: Digunakan untuk menampilkan sebagian dari hasil output.
-
-## Penggunaan
-   Pastikan Anda memiliki izin eksekusi untuk skrip bash.
-   Eksekusi Command dibawah terlebih dahulu agar mendapatkan izin
-   ```bash
-   chmod +x sales_analysis.sh
