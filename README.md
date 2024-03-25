@@ -46,12 +46,12 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
    chmod +x sales_analysis.sh
    ```
 
-## SOAL NOMOR 2
+# SOAL NOMOR 2
 ## Skrip Sistem Login
 
 Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. Skrip ini memungkinkan pengguna untuk melakukan login, pemulihan kata sandi jika lupa, serta tugas-tugas administratif seperti menambah, mengedit, dan menghapus pengguna.
 
-## Fitur
+## Fungsi Script
 
 1. **Login**:
    - Pengguna diminta untuk memasukkan email dan kata sandi untuk masuk.
@@ -91,11 +91,11 @@ Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. 
 6. **Menu Admin**:
    - Jika pengguna memiliki peran admin, mereka dapat mengakses menu admin untuk melakukan tugas administratif.
 
-# SKRIP REGISTER.SH
+## SKRIP REGISTER.SH
 
 Ini adalah sistem registrasi pengguna sederhana yang diimplementasikan dalam skrip Bash. Skrip ini memungkinkan pengguna untuk mendaftar dengan alamat email yang unik, nama pengguna, pertanyaan keamanan beserta jawabannya, dan kata sandi yang kuat sesuai dengan kriteria tertentu.
 
-## Fitur-fitur
+## Fungsi skript
 
 - **Validasi Email:** Memeriksa apakah email yang dimasukkan oleh pengguna sudah unik.
 - **Enkripsi Kata Sandi:** Mengenkripsi kata sandi pengguna menggunakan basis64.
@@ -117,22 +117,11 @@ Ini adalah sistem registrasi pengguna sederhana yang diimplementasikan dalam skr
 3. **Pencatatan Log:**
    - Percobaan registrasi dan hasilnya akan dicatat dalam file `auth.log`.
 
-## Persyaratan
-
-- Lingkungan shell Bash
-- Perintah `base64` untuk enkripsi kata sandi
-
 ## Struktur File
 
 - `User.sh`: Skrip utama untuk registrasi pengguna.
 - `users.txt`: File untuk menyimpan data pengguna yang terdaftar.
 - `auth.log`: File log untuk percobaan registrasi dan hasilnya.
-
-## Catatan
-
-- Pastikan bahwa skrip dapat dieksekusi (`chmod +x User.sh`).
-- Modifikasi kriteria kata sandi atau logika penugasan peran sesuai kebutuhan.
-- Tangani kasus-kasus error seperti kegagalan menulis file atau input yang tidak valid.
 
 ## SOAL NOMOR 3
 
