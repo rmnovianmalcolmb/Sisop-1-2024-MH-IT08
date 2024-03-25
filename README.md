@@ -1,8 +1,4 @@
-# Analisis Penjualan dengan Bash Script
-
-Tujuan dari script bash adalah untuk menganalisis data dari file.csv. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
-
-## Langkah-langkah
+## SOAL NOMOR 2
 
 1. **Unduh Data Penjualan**
    - Jika file `Sandbox.csv` belum ada, skrip akan mengunduhnya dari Google Drive menggunakan perintah `wget`.
