@@ -1,4 +1,4 @@
-## SOAL NOMOR 2
+## SOAL NOMOR 1
 
 1. **Unduh Data Penjualan**
    - Jika file `Sandbox.csv` belum ada, skrip akan mengunduhnya dari Google Drive menggunakan perintah `wget`.
