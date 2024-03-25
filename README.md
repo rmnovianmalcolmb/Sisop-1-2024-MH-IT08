@@ -91,13 +91,4 @@ Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. 
 6. **Menu Admin**:
    - Jika pengguna memiliki peran admin, mereka dapat mengakses menu admin untuk melakukan tugas administratif.
 
-## Catatan Penting
-
-- Pastikan berkas `users.txt` teratur dan sesuai dengan format yang diharapkan.
-- Skrip ini hanya untuk tujuan demonstrasi dan sebaiknya tidak digunakan dalam lingkungan produksi tanpa penyesuaian keamanan yang tepat.
-
----
-
-Silakan gunakan README ini sebagai panduan untuk menggunakan skrip sistem login Anda. Sesuaikan dengan kebutuhan dan pastikan untuk memperhatikan petunjuk penggunaan dan catatan penting yang disertakan.
-
 
