@@ -1,6 +1,6 @@
 # Analisis Penjualan dengan Bash Script
 
-Script bash ini bertujuan untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
+Tujuan dari script bash adalah untuk menganalisis data dari file.csv. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
 
 ## Langkah-langkah
 
