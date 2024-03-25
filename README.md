@@ -1,6 +1,6 @@
-# SOAL NOMOR 1
+## SOAL NOMOR 1
 Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
-##Langkah Langkah
+## Langkah Langkah
 1. **Unduh Data Penjualan**
    - Jika file `Sandbox.csv` belum ada, skrip akan mengunduhnya dari Google Drive menggunakan perintah `wget`.
      Untuk Perintah ini saya menggunakan command berikut:
@@ -36,19 +36,18 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
    echo "D"
    awk -F ',' '$6 ~ /Adriaens/ {print $2","$18}' Sandbox.csv
 ## Penjelasan Singkat
-
 - **Awk Command**: Digunakan untuk memproses dan menganalisis baris-baris dari file CSV.
 - **Sort Command**: Digunakan untuk mengurutkan hasil output.
 - **Head Command**: Digunakan untuk menampilkan sebagian dari hasil output.
-
 ## Penggunaan
    Pastikan Anda memiliki izin eksekusi untuk skrip bash.
    Eksekusi Command dibawah terlebih dahulu agar mendapatkan izin
    ```bash
    chmod +x sales_analysis.sh
    ```
+
 ## SOAL NOMOR 2
-# Skrip Sistem Login
+## Skrip Sistem Login
 
 Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. Skrip ini memungkinkan pengguna untuk melakukan login, pemulihan kata sandi jika lupa, serta tugas-tugas administratif seperti menambah, mengedit, dan menghapus pengguna.
 
