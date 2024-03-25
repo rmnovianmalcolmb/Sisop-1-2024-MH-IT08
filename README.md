@@ -37,81 +37,130 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
    awk -F ',' '$6 ~ /Adriaens/ {print $2","$18}' Sandbox.csv
 
 # SOAL NOMOR 2
-## Skrip Sistem Login
+### login.sh
 
-Skrip ini merupakan sistem login sederhana yang dibuat menggunakan bahasa Bash. Skrip ini memungkinkan pengguna untuk melakukan login, pemulihan kata sandi jika lupa, serta tugas-tugas administratif seperti menambah, mengedit, dan menghapus pengguna.
+1. Fungsi untuk login
+```bash
+login_user() {
+    echo "Enter your email:"
+    read email
+    echo "Enter password:"
+    read -s passwd
+    echo
 
-## Fungsi Script
+    if grep -q "^$email," users.txt; then
+        stored_passwd=$(grep "^$email," users.txt | cut -d',' -f5)
+        if [ "$passwd" = "$(echo "$stored_passwd" | base64 --decode)" ]; then
+            echo "Login successful!"
+            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN SUCCESS" >> auth.log
+            if [[ "$email" == *admin* ]]; then
+                admin
+            else
+                echo "You don't have admin previledge! Welcome!"
+            fi
+        else
+            echo "Wrong email or password."
+            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+        fi
+    else
+        echo "Wrong email or password."
+        echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+    fi
+}
+```
 
-1. **Login**:
-   - Pengguna diminta untuk memasukkan email dan kata sandi untuk masuk.
-   - Jika kredensial yang dimasukkan cocok dengan yang tersimpan, pengguna dianggap berhasil login.
-   - Setiap percobaan login yang berhasil atau gagal akan dicatat ke dalam file `auth.log`.
+2. Fungsi untuk menjalankan pilihan lupa password
+```bash
+forgot() {
+    read -p "Email: " email
+    if grep -q "^$email," users.txt; then
+        sec_q=$(grep "^$email," users.txt | cut -d',' -f3)
+        echo "Security Question: $sec_q"
+        read -p "Answer: " user_ans
+        stored_ans=$(grep "^$email," users.txt | cut -d',' -f4)
+        if [ "$user_ans" = "$stored_ans" ]; then
+            stored_passwd=$(grep "^$email," users.txt | cut -d',' -f5)
+            echo "Your password is: $(echo "$stored_passwd" | base64 --decode)"
+        else
+            echo "Wrong answer."
+        fi
+    else
+        echo "Email not found."
+    fi
+}
+```
+3. Menampilkan menu admin
+```bash
+admin() {
+    echo "Admin Menu"
+    echo "1. Add User"
+    echo "2. Edit User"
+    echo "3. Delete User"
+    echo "4. Logout"
+    read admin_choice
+    case "$admin_choice" in
+        "1") source register.sh ;;
+        "2") edit_user ;;
+        "3") delete_user ;;
+        "4") exit ;;
+        *) echo "Invalid option" ;;
+    esac
+}
+```
 
-2. **Lupa Kata Sandi**:
-   - Jika pengguna lupa kata sandi, mereka dapat memulihkannya dengan menjawab pertanyaan keamanan yang telah ditetapkan sebelumnya.
-   - Pertanyaan keamanan dan jawaban pengguna disimpan dalam berkas `users.txt`.
+4. Fungsi untuk mengedit user yang terdaftar di user.txt
+```bash
+edit_user() {
+    cat users.txt
+    echo "Enter the email of the user you want to edit:"
+    read email_edit
+    if grep -q "^$email_edit," users.txt; then
+        read -p "New Username: " new_username
+        read -p "New Security Question: " new_sec_q
+        read -p "New Security Answer: " new_sec_a
+        read -s -p "New Password: " new_password
+        echo
+        encrypted_password=$(echo -n "$new_password" | base64)
 
-3. **Menu Admin**:
-   - Pengguna dengan peran admin memiliki akses ke menu admin yang menyediakan fungsi tambahan:
-     - **Tambah Pengguna**: Admin dapat menambahkan pengguna baru ke dalam sistem dengan mengisi informasi yang diperlukan.
-     - **Edit Pengguna**: Admin dapat mengubah informasi pengguna seperti nama pengguna, pertanyaan keamanan, jawaban, dan kata sandi.
-     - **Hapus Pengguna**: Admin dapat menghapus akun pengguna dari sistem.
-     - **Logout**: Admin dapat keluar dari menu admin dan kembali ke menu utama.
+        sed -i "/^$email_edit,/c\\$email_edit,$new_username,$new_sec_q,$new_sec_a,$encrypted_password" users.txt
+        echo "User has been edited!"
+    else
+        echo "Email not found."
+    fi
+}
+```
 
-## Penggunaan
+5. Fungsi untuk delete user yang terdaftar
+```bash
+delete_user() {
+    cat users.txt
+    echo "Enter the email of the user you want to delete:"
+    read delete_email
+    if grep -q "^$delete_email," users.txt; then
+        sed -i "/^$delete_email,/d" users.txt
+        echo "User has been deleted"
+    else
+        echo "Email not found."
+    fi
+}
+```
 
-1. **Persiapan**:
-   - Pastikan skrip dan berkas `users.txt` berada dalam direktori yang sama.
-   - Pastikan skrip memiliki izin eksekusi (jalankan `chmod +x login_system.sh` jika diperlukan).
-
-2. **Menjalankan Skrip**:
-   - Buka terminal dan jalankan skrip dengan perintah `./login_system.sh`.
-
-3. **Menu Utama**:
-   - Pengguna akan disajikan dengan pilihan menu untuk login, pemulihan kata sandi, atau keluar dari skrip.
-
-4. **Login**:
-   - Masukkan email dan kata sandi yang sesuai untuk masuk.
-   - Jika berhasil, pengguna akan masuk ke dalam sistem sesuai dengan hak akses mereka.
-
-5. **Pemulihan Kata Sandi**:
-   - Jika pengguna lupa kata sandi, mereka dapat memulihkannya dengan menjawab pertanyaan keamanan yang telah ditetapkan sebelumnya.
-
-6. **Menu Admin**:
-   - Jika pengguna memiliki peran admin, mereka dapat mengakses menu admin untuk melakukan tugas administratif.
-
-## SKRIP REGISTER.SH
-
-Ini adalah sistem registrasi pengguna sederhana yang diimplementasikan dalam skrip Bash. Skrip ini memungkinkan pengguna untuk mendaftar dengan alamat email yang unik, nama pengguna, pertanyaan keamanan beserta jawabannya, dan kata sandi yang kuat sesuai dengan kriteria tertentu.
-
-## Fungsi skript
-
-- **Validasi Email:** Memeriksa apakah email yang dimasukkan oleh pengguna sudah unik.
-- **Enkripsi Kata Sandi:** Mengenkripsi kata sandi pengguna menggunakan basis64.
-- **Validasi Keamanan Kata Sandi:** Memastikan bahwa kata sandi memenuhi kriteria tertentu (panjang minimum, huruf besar, huruf kecil, angka, simbol, dan tidak mirip dengan informasi sensitif lainnya).
-- **Penugasan Peran:** Menetapkan peran "admin" untuk email yang mengandung kata "admin" dan "user" untuk yang lainnya.
-- **Pencatatan Log:** Mencatat percobaan registrasi dan hasilnya dalam file `auth.log`.
-
-## Cara Menggunakan
-
-1. **Jalankan Skrip:**
-   - Jalankan skrip di terminal: `./User.sh`
-
-2. **Proses Registrasi:**
-   - Masukkan alamat email yang unik.
-   - Berikan nama pengguna.
-   - Tentukan pertanyaan keamanan beserta jawabannya.
-   - Masukkan kata sandi yang kuat sesuai dengan kriteria yang ditentukan.
-
-3. **Pencatatan Log:**
-   - Percobaan registrasi dan hasilnya akan dicatat dalam file `auth.log`.
-
-## Struktur File
-
-- `User.sh`: Skrip utama untuk registrasi pengguna.
-- `users.txt`: File untuk menyimpan data pengguna yang terdaftar.
-- `auth.log`: File log untuk percobaan registrasi dan hasilnya.
+6. Main Function untuk menjalankan program dan memanggil fungsi-fungsi diatas
+```bash
+echo "Welcome to Login System"
+while true; do
+    echo "1. Login"
+    echo "2. Forgot Password"
+    echo "3. Exit"
+    read choice
+    case "$choice" in
+    "1") login_user ;;
+    "2") forgot ;;
+    "3") echo "Thank you!"; exit ;;
+    *) echo "Invalid option" ;;
+    esac
+done
+```
 
 ## SOAL NOMOR 3
 
