@@ -22,7 +22,7 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
     ```bash
     echo "B"
     awk -F ',' 'NR>1 {profit[$7]+=$20} END {for (segment in profit) print segment","profit[segment]}' Sandbox.csv | sort -t',' -k2 -n | head -n 1
-4. **3 Kategori dengan Total Profit Tertinggi (Perintah C)**
+4. **Kategori dengan Total Profit Tertinggi (Perintah C)**
    - Skrip akan menghitung total profit untuk setiap kategori produk.
    - Kemudian, akan menampilkan 3 kategori dengan total profit tertinggi.
      Untuk Perintah ini saya menggunakan command berikut:
