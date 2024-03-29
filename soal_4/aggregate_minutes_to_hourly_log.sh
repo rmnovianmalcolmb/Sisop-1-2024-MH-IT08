@@ -141,3 +141,4 @@ echo "maximum,$max_mem_total,$max_mem_used,$max_mem_free,$max_mem_shared,$max_me
 echo "average,$avg_mem_total,$avg_mem_used,$avg_mem_free,$avg_mem_shared,$avg_mem_buff,$avg_mem_available,$avg_swap_total,$avg_swap_used,$avg_swap_free,/home/ubuntu/,$avg_path_size" >> "$logfiles"
 
 #0 * * * * /home/ubuntu/soal_4/aggregate_minutes_to_hourly_log.sh
+chmod 600 "$logfiles"
