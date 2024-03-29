@@ -20,3 +20,4 @@ record_ram
 record_directory_size
 
 #* * * * * /home/ubuntu/soal_4/minute_log.sh
+chmod 600 "$logfile"
