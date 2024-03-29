@@ -36,6 +36,10 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
    echo "D"
    awk -F ',' '$6 ~ /Adriaens/ {print $2","$18}' Sandbox.csv
 
+Untuk output yang bakal keluar setelah file soal1.sh nya dijalanin itu akan seperti ini:
+
+![Screenshot 2024-03-29 112651](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/150356339/246198db-aff6-45c3-adc5-7f29580518e3)
+
 # SOAL NOMOR 2
 ### login.sh
 
