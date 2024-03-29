@@ -19,7 +19,7 @@ for asli in genshin_character/*; do
   for datachar in "${data[@]}"; do
     datachar2=$(echo "$datachar" | awk -F, '{print $1}')
     if [ "$nama2" = "$datachar2" ]; then
-      namabaru=$(echo "$datachar" | awk -F, '{print $1 " - " $2 " - " $3 " - " $4}' | tr -d '\r')
+      namabaru=$(echo "$datachar" | awk -F, '{print $2 " - " $1 " - " $3 " - " $4}' | tr -d '\r')
       filebaru="${namabaru}.jpg"
 
       regionchar=$(echo "$datachar" | awk -F, '{print $2}' | tr -d '\r')
