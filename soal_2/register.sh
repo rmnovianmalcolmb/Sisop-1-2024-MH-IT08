@@ -24,9 +24,9 @@ while true; do
         read -s -p "Enter a password minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 digit, 1 symbol, and not the same as username, birthdate, or name : " passwd
         echo
 
-        if [[ ${#passwd} -lt 8 || ! "$passwd" =~ [[:upper:]] || ! "$passwd" =~ [[:lower:]] || ! "$passwd" =~ [[:digit:]] || ! "$passwd" =~ [[:punct:]] ]]; then
+        if [[ ${#passwd} -lt 8 || ! "$passwd" =~ [[:upper:]] || ! "$passwd" =~ [[:lower:]] || ! "$passwd" =~ [[:digit:]] ]]; then
             echo "Password doesn't meet the requirements, please try again!"
-            echo "$(date +%Y/%m/%d %h:%m:%s) REGISTER FAILED" >> auth.log	     
+            echo "$(date "+%Y/%m/%d %h:%m:%s") REGISTER FAILED failed registration on email $email" >> auth.log	     
         else 
             break
         fi
@@ -41,7 +41,7 @@ while true; do
     fi
 
     echo "$email,$username,$sec_q,$sec_a,$encrypt,$role" >> users.txt
-    echo "$(date +%Y/%m/%d %h:%m:%s) REGISTER SUCCESS" >> auth.log 
+    echo "$(date "+%Y/%m/%d %h:%m:%s") REGISTER SUCCESS user $username has registered successfully" >> auth.log 
     echo "User registered successfully!"
     break
 done
