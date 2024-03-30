@@ -100,6 +100,10 @@ forgot() {
     fi
 }
 ```
+Contoh penggunaan fungsi forgot adalah sebagai berikut :
+
+
+![Screenshot from 2024-03-30 01-23-15](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/1184ef44-9751-4dea-aea9-7e44fb368eff)
 
 3. **Fungsi admin**
 Fungsi ini berjalan apabila email user yang berhasil login terdapat kata "admin" di dalamnya, terdapat 4 pilihan opsi sebagai admin menu
