@@ -1,5 +1,7 @@
 ## SOAL NOMOR 1
-Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
+
+Tujuan dari script bash ini untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
+
 ## Langkah Langkah
 1. **Unduh Data Penjualan**
    - Jika file `Sandbox.csv` belum ada, skrip akan mengunduhnya dari Google Drive menggunakan perintah `wget`.
@@ -36,7 +38,7 @@ Tujuan dari skript bash ini untuk melakukan analisis terhadap data penjualan yan
    echo "D"
    awk -F ',' '$6 ~ /Adriaens/ {print $2","$18}' Sandbox.csv
 
-Untuk output yang bakal keluar setelah file soal1.sh nya dijalanin itu akan seperti ini:
+Untuk output yang akan keluar setelah file soal1.sh dijalankan akan seperti ini:
 
 ![Screenshot 2024-03-29 112651](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/150356339/246198db-aff6-45c3-adc5-7f29580518e3)
 
@@ -277,13 +279,14 @@ Catatan dalam `auth.log` apabila user berhasil/gagal registrasi :
 
 ### awal.sh
 
-1. Mendownload file genshin.zip yang berisi genshin_character.zip dan list_character.csv, lalu mengekstrak genshin_character.zip
+**1. Mendownload file `genshin.zip` yang berisi `genshin_character.zip` dan `list_character.csv`, lalu melakukan unzip `genshin_character.zip`**
 ```bash
 wget -O genshin.zip "https://drive.google.com/uc?export=download&id=1oGHdTf4_76_RacfmQIV4i7os4sGwa9vN"
 unzip genshin.zip
 unzip genshin_character.zip 
 ```
-2. Membuat folder region berdasarkan list_character.csv
+
+**2. Membuat folder region berdasarkan `list_character.csv`**
 ```bash
 region=$(awk -F "," '{printf ("%s,", $2)}' list_character.csv)
 IFS=',' read -r -a listregion <<< "$region"
@@ -291,36 +294,38 @@ for ((i=1; i<${#listregion[@]}; i++)); do
   mkdir -p "/home/ubuntu/soal_3/genshin_character/${listregion[i]}"
 done
 ```
-3. Membaca file list_character.csv
+
+**3. Membaca file `list_character.csv`**
 ```bash
 IFS=$'\n' read -d '' -a data < <(tail -n +2 list_character.csv)
 ```
-4. Mengdecode nama asli jpg dari hex ke text
+
+**4. Melakukan decode nama asli jpg dari hex ke text**
 ```bash
 for asli in genshin_character/*; do
   nama1=$(echo "${asli/*\//}")
   nama2=$(printf "%s" "${nama1%.jpg}" | xxd -r -p) 
 ```
 
-5. Mengubah nama hasil decode dengan format NAMA - REGION - ELEMENT - SENJATA
+**5. Mengubah nama hasil decode dengan format `REGION - NAMA - ELEMENT - SENJATA.jpg`**
 ```bash
   for datachar in "${data[@]}"; do
     datachar2=$(echo "$datachar" | awk -F, '{print $1}')
     if [ "$nama2" = "$datachar2" ]; then
-      namabaru=$(echo "$datachar" | awk -F, '{print $1 " - " $2 " - " $3 " - " $4}' | tr -d '\r')
+      namabaru=$(echo "$datachar" | awk -F, '{print $2 " - " $1 " - " $3 " - " $4}' | tr -d '\r')
       filebaru="${namabaru}.jpg"
 ```
 
-6. Memindahkan gambar karakter berdasarkan regionnya ke folder region yang sesuai dengan list_character.sv
+**6. Memindahkan gambar karakter berdasarkan regionnya ke folder region yang sesuai dengan `list_character.csv`**
 ```bash
       regionchar=$(echo "$datachar" | awk -F, '{print $2}' | tr -d '\r')
       mv "genshin_character/$nama1" "genshin_character/$regionchar/$filebaru"
     fi
-```
   done
 done
+```
 
-7. Menghitung jumlah senjata
+**7. Menghitung jumlah senjata**
 ```bash
 awk 'BEGIN {printf "Bow : "} /Bow/ { ++n } END {print n}' list_character.csv
 awk 'BEGIN {printf "Catalyst : "} /Catalyst/ { ++n } END {print n}' list_character.csv
@@ -328,21 +333,32 @@ awk 'BEGIN {printf "Claymore : "} /Claymore/ { ++n } END {print n}' list_charact
 awk 'BEGIN {printf "Polearm : "} /Polearm/ { ++n } END {print n}' list_character.csv
 awk 'BEGIN {printf "Sword : "} /Sword/ { ++n } END {print n}' list_character.csv
 ```
-8. Menghapus file yang tidak diperlukan
+![Screenshot from 2024-03-30 15-29-47](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/75e3816f-66de-4142-adb8-3a1c79d3b2e8)
+
+**8. Menghapus file yang tidak diperlukan**
 ```bash
 rm list_character.csv 
 rm genshin_character.zip
 rm genshin.zip
 ```
+
+**Hasil akhir setelah menjalankan `awal.sh`**
+
+![Screenshot from 2024-03-30 15-34-58](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/8d856c90-529f-4b45-a126-7f474c2815e5)
+
+![Screenshot from 2024-03-30 15-35-09](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/0432a8d1-554d-4663-afed-5b918778e967)
+
+![Screenshot from 2024-03-30 15-35-24](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/7b9f1d21-72f1-4312-9b7e-11615c001bd1)
+
 ### search.sh
 
-1. Akses direktori genshin_character dan set found untuk penanda
+**1. Akses direktori genshin_character dan set found untuk penanda jika url ditemukan**
 ```bash
 cd genshin_character
 found=0
 ``` 
 
-2. Membuka semua folder region dan mensteghide semua file
+**2. Membuka semua folder region dan mensteghide semua file yang ada pada folder**
 ```bash
 for region in *; do
   if [ -d "$region" ]; then
@@ -352,13 +368,13 @@ for region in *; do
         file_name="${file_basename%.*}"
         steghide extract -sf "$file_jpg" -p "" -xf "$file_name.txt"
 ```
-3. Mendecode hasil steghide setiap file
+**3. Mendecode hasil steghide setiap file**
 ```bash
         file_steg="$file_name.txt"
         steg_code=$(<"$file_steg")
         steg_res=$(echo -n "$steg_code" | base64 --decode 2>/dev/null)
 ```
-4. Mengecek apakah hasil decode mengandung http
+**4. Mengecek apakah hasil decode mengandung http**
 ```bash
         if [[ "$steg_res" == *http* ]]; then
           echo "[$(date '+%d/%m/%y %H:%M:%S')] [FOUND] [/home/ubuntu/soal_3/genshin_character/$region/$file_basename]" >> "image.log"
@@ -377,7 +393,7 @@ for region in *; do
   fi
 ```
 
-5.Jika ditemukan maka menghentikan loop
+**5.Jika ditemukan maka loop dihentikan**
 ```bash
   if [ "$found" -eq 1 ]; then  
     break
@@ -385,10 +401,23 @@ for region in *; do
 done
 ```
 
-6. Memindahkan file
+**6. Memindahkan semua file yang berformat jpg/txt/log dari folder genshin_character ke folder soal_3**
 ```bash
 mv /home/ubuntu/soal_3/genshin_character/*.{jpg,txt,log} /home/ubuntu/soal_3/
 ```
+
+**Hasil akhir setelah menjalankan `search.sh`**
+![Screenshot from 2024-03-30 15-38-36](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/14a0bbca-c396-415e-9504-115421d58a7b)
+
+**Url yang dicari**
+![Screenshot from 2024-03-30 15-39-08](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/c296515f-13eb-44c5-a899-476e79f33cb0)
+
+**Isi dari image.log**
+![Screenshot from 2024-03-30 15-39-21](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/1ca0507e-7e14-4249-84e9-161083fe7933)
+
+**Gambar dari link url**
+![Screenshot from 2024-03-30 15-39-34](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/56f6af15-21cb-4e4b-b5c6-946ac51b4510)
+
 
 ## SOAL NOMOR 4
 
@@ -430,7 +459,7 @@ record_directory_size
 #* * * * * /home/ubuntu/soal_4/minute_log.sh
 ```
 
-###aggregate_minutes_to_hourly_log.sh
+### aggregate_minutes_to_hourly_log.sh
 
 1. Membuat variabel untuk mengambil waktu saat ini dan menentukan path file
 ```bash
