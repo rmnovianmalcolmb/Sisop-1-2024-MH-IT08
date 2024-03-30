@@ -627,7 +627,7 @@ avg_swap_free=$((total_swap_free / count))
 avg_path_size=$((total_path_size / count))
 ```
 
-6. Memasukkan hasil ke metrics_agg_${timestamp}.log
+**6. Memasukkan hasil ke metrics_agg_${timestamp}.log**
 ```bash
 echo -e "type,mem_total,mem_used,mem_free,mem_shared,mem_buff,mem_available,swap_total,swap_used,swap_free,path,path_size" > "$logfiles"
 echo "minimum,$min_mem_total,$min_mem_used,$min_mem_free,$min_mem_shared,$min_mem_buff,$min_mem_available,$min_swap_total,$min_swap_used,$min_swap_free,/home/ubuntu/,$min_path_size" >> "$logfiles"
