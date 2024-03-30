@@ -41,9 +41,10 @@ Untuk output yang bakal keluar setelah file soal1.sh nya dijalanin itu akan sepe
 ![Screenshot 2024-03-29 112651](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/150356339/246198db-aff6-45c3-adc5-7f29580518e3)
 
 # SOAL NOMOR 2
+Tujuan dari soal ini adalah menciptakan sebuah user interface login system dan registration system yang terintegrasi dengan data pada sebuah file bernama users.txt dan catatan history login/register pad file yang bernama auth.log
 ### login.sh
 
-1. Fungsi untuk login
+Fungsi login_user berfungsi apabila user memilih opsi '1' yaitu Login, dalam fungsi ini user diharuskan memasukan email dan password yang sesuai
 ```bash
 login_user() {
     echo "Enter your email:"
@@ -51,29 +52,33 @@ login_user() {
     echo "Enter password:"
     read -s passwd
     echo
+```
 
+apabila email dan password yang dimasukan oleh user terdapat pada users.txt maka user akan berhasil login dan tercatat di auth.log sebagai LOGIN SUCCESS sebaliknya apabila password atau username tidak sesuai dengan yang ada di users.txt maka akan tercatat sebagai LOGIN FAILED 
+```bash
     if grep -q "^$email," users.txt; then
         stored_passwd=$(grep "^$email," users.txt | cut -d',' -f5)
         if [ "$passwd" = "$(echo "$stored_passwd" | base64 --decode)" ]; then
             echo "Login successful!"
-            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN SUCCESS" >> auth.log
+            echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN SUCCESS user with email $email has logged in successfully" >> auth.log
             if [[ "$email" == *admin* ]]; then
                 admin
             else
                 echo "You don't have admin previledge! Welcome!"
+                exit
             fi
         else
             echo "Wrong email or password."
-            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+            echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN FAILED failed login attempt on user with email $email" >> auth.log
         fi
     else
         echo "Wrong email or password."
-        echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+        echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN FAILED failed login attempt on user with email $email" >> auth.log
     fi
 }
 ```
 
-2. Fungsi untuk menjalankan pilihan lupa password
+Fungsi forgot, berjalan ketika user memilih opsi '2' sebagai opsi apabila user lupa password, dalam fungsi ini user diwajibkan menuliskan emailnya dan menjawab security question yang dibuatnya ketika registration. Apabila jawaban user benar maka program akan men-decode password yang tersimpan dalam user.txt dan menampilkannya namun apabila salah program akan memunculkan kalimat "wrong answer" dan apabila email yang dimasukan user tidak tersedia di user.txt maka akan muncul kalimat "Email not found".
 ```bash
 forgot() {
     read -p "Email: " email
@@ -93,9 +98,11 @@ forgot() {
     fi
 }
 ```
-3. Menampilkan menu admin
-```bash
+
+Fungsi admin, berjalan apabila email user yang berhasil login terdapat kata "admin" di dalamnya, terdapat 4 pilihan opsi sebagai admin menu
+```bash 
 admin() {
+    while true;do
     echo "Admin Menu"
     echo "1. Add User"
     echo "2. Edit User"
@@ -106,13 +113,13 @@ admin() {
         "1") source register.sh ;;
         "2") edit_user ;;
         "3") delete_user ;;
-        "4") exit ;;
+        "4") echo "Logout" ; exit ;;
         *) echo "Invalid option" ;;
     esac
+    done
 }
 ```
-
-4. Fungsi untuk mengedit user yang terdaftar di user.txt
+Fungsi edit user, berjalan ketika user admin memilih opsi '2' pada admin menu, dalam program ini admin diminta memasukkan data  baru pada email user yabg dipilih dan memperbaruinya di user.txt 
 ```bash
 edit_user() {
     cat users.txt
@@ -123,18 +130,24 @@ edit_user() {
         read -p "New Security Question: " new_sec_q
         read -p "New Security Answer: " new_sec_a
         read -s -p "New Password: " new_password
+        
+        if [[ "$email_edit" == *admin* ]]; then
+        role="admin"
+    else 
+        role="user"
+    fi
+
         echo
         encrypted_password=$(echo -n "$new_password" | base64)
 
-        sed -i "/^$email_edit,/c\\$email_edit,$new_username,$new_sec_q,$new_sec_a,$encrypted_password" users.txt
+        sed -i "/^$email_edit,/c\\$email_edit,$new_username,$new_sec_q,$new_sec_a,$encrypted_password,$role" users.txt
         echo "User has been edited!"
     else
         echo "Email not found."
     fi
 }
 ```
-
-5. Fungsi untuk delete user yang terdaftar
+Fungsi delete_user, berjalan ketika user admin meilih opsi '3' pada menu admin, dalam program ini admin diminta menuliskan email data user yang ingin dihapus kemudian program akan menghapus seluruh data user tersebut di dalam file users.txt
 ```bash
 delete_user() {
     cat users.txt
@@ -149,7 +162,7 @@ delete_user() {
 }
 ```
 
-6. Main Function untuk menjalankan program dan memanggil fungsi-fungsi diatas
+Fungsi utama, fungsi ini merupakan tampilan user interface dari program login.sh dimana user diminta untuk memilih opsi yang disediakan. Apabila memilih '1' maka program akan memanggil fungsi login_user, memilih '2' maka akan memanggil fungsi forgot, dan ketika memilih '3' maka program akan berhenti berjalan
 ```bash
 echo "Welcome to Login System"
 while true; do
@@ -158,13 +171,14 @@ while true; do
     echo "3. Exit"
     read choice
     case "$choice" in
-    "1") login_user ;;
+    "1") login_user;;
     "2") forgot ;;
     "3") echo "Thank you!"; exit ;;
     *) echo "Invalid option" ;;
     esac
 done
 ```
+
 ### register.sh
 
 1. Fungsi untuk mengecek apakah email yang dimasukan sudah dipakai user lainnya atau belum
