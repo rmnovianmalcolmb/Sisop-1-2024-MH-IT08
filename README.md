@@ -126,6 +126,11 @@ admin() {
     done
 }
 ```
+Contoh penggunaan admin menu adalah sebagai berikut :
+
+
+![Screenshot from 2024-03-30 01-29-38](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/d615dca7-7678-4465-95d0-c6d5c77c68a3)
+
 4. **Fungsi edit user**
 Berjalan ketika user admin memilih opsi '2' pada admin menu, dalam program ini admin diminta memasukkan data  baru pada email user yabg dipilih dan memperbaruinya di user.txt 
 ```bash
