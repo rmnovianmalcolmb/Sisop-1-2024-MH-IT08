@@ -315,6 +315,7 @@ for asli in genshin_character/*; do
       namabaru=$(echo "$datachar" | awk -F, '{print $2 " - " $1 " - " $3 " - " $4}' | tr -d '\r')
       filebaru="${namabaru}.jpg"
 ```
+Revisi : sebelumnya format yang digunakan adalah NAMA - REGION - ELEMENT - SENJATA sementara format yang benar adalah REGION - NAMA - ELEMENT - SENJATA
 
 **6. Memindahkan gambar karakter berdasarkan regionnya ke folder region yang sesuai dengan `list_character.csv`**
 ```bash
@@ -358,7 +359,7 @@ cd genshin_character
 found=0
 ``` 
 
-**2. Membuka semua folder region dan mensteghide semua file yang ada pada folder**
+**2. Membuka semua folder region dan melakukan `steghide` pada semua file yang ada pada folder**
 ```bash
 for region in *; do
   if [ -d "$region" ]; then
@@ -368,12 +369,14 @@ for region in *; do
         file_name="${file_basename%.*}"
         steghide extract -sf "$file_jpg" -p "" -xf "$file_name.txt"
 ```
+
 **3. Mendecode hasil steghide setiap file**
 ```bash
         file_steg="$file_name.txt"
         steg_code=$(<"$file_steg")
         steg_res=$(echo -n "$steg_code" | base64 --decode 2>/dev/null)
 ```
+
 **4. Mengecek apakah hasil decode mengandung http**
 ```bash
         if [[ "$steg_res" == *http* ]]; then
@@ -423,13 +426,13 @@ mv /home/ubuntu/soal_3/genshin_character/*.{jpg,txt,log} /home/ubuntu/soal_3/
 
 ### minute_log.sh
 
-1. Membuat variabel untuk mengambil waktu saat ini dan menentukan path file
+**1. Membuat variabel untuk mengambil waktu saat ini dan menentukan path file**
 ```bash
 timestamp=$(date +"%Y%m%d%H%M%S")
 logfile="/home/ubuntu/log/metrics_${timestamp}.log"
 ```
 
-2. Monitoring ram
+**2. Monitoring ram menggunakan `free-m`**
 ```bash
 record_ram() {
     ram_info=$(free -m | awk 'NR==2{print $2","$3","$4","$5","$6","$7}')
@@ -439,7 +442,7 @@ record_ram() {
 }
 ```
 
-3. Monitoring size directory
+**3. Monitoring size directory menggunakan `du -sh`**
 ```bash
 record_directory_size() {
     target_path="/home/ubuntu/"
@@ -448,26 +451,39 @@ record_directory_size() {
 }
 ```
 
-4. Menjalankan fungsi monitoring
+**4. Menjalankan fungsi monitoring**
 ```bash
 record_ram
 record_directory_size
 ```
 
-5. Crontab agar file berjalan setiap 1 menit
+**5. Crontab agar file berjalan setiap 1 menit**
 ```bash
 #* * * * * /home/ubuntu/soal_4/minute_log.sh
 ```
 
+**6. Mengatur permission file agar hanya user pemilik yang dapat membaca file**
+```bash
+chmod 600 "$logfile"
+```
+Revisi : Sebelumnya belum ada command untuk mengatur permission file
+
+**Hasil akhir setelah `minute_log.sh` dijalankan selama 5 menit**
+![Screenshot from 2024-03-30 16-24-53](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/31a860c8-6a87-4220-a8ac-cf28dce387ca)
+
+**Isi dari `metrics_.log`**
+![Screenshot from 2024-03-30 16-25-08](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/d791b11d-74ab-432e-a058-0c09bd2ef6fe)
+
+
 ### aggregate_minutes_to_hourly_log.sh
 
-1. Membuat variabel untuk mengambil waktu saat ini dan menentukan path file
+**1. Membuat variabel untuk mengambil waktu saat ini dan menentukan path file**
 ```bash
 timestamp=$(date +"%Y%m%d%H")
 logfiles="/home/ubuntu/log/metrics_agg_${timestamp}.log"
 ```
 
-2. Membuat variabel untuk menyimpan nilai minimum,maksimum, dan total
+**2. Membuat variabel untuk menyimpan nilai minimum,maksimum, dan total**
 ```bash
 min_mem_total=99999999
 max_mem_total=0
@@ -502,12 +518,12 @@ total_swap_free=0
 total_path_size=0
 ```
 
-3. Set variabel count untuk menghitung banyak file metrics
+**3. Set variabel count untuk menghitung banyak file metrics**
 ```bash
 count=0
 ```
 
-4. Mencari nilai minimum, maksimum, dan total dari semua file metrics
+**4. Mencari nilai minimum, maksimum, dan total dari semua file metrics**
 ```bash
 for logfile in /home/ubuntu/log/metrics_*.log; do
     mem_total=$(awk -F',' 'NR==2{print $1}' "$logfile")
@@ -597,7 +613,7 @@ for logfile in /home/ubuntu/log/metrics_*.log; do
 done
 ```
 
-5. Menghitung rata-rata 
+**5. Menghitung rata-rata**
 ```bash
 avg_mem_total=$((total_mem_total / count))
 avg_mem_used=$((total_mem_used / count))
@@ -619,7 +635,20 @@ echo "maximum,$max_mem_total,$max_mem_used,$max_mem_free,$max_mem_shared,$max_me
 echo "average,$avg_mem_total,$avg_mem_used,$avg_mem_free,$avg_mem_shared,$avg_mem_buff,$avg_mem_available,$avg_swap_total,$avg_swap_used,$avg_swap_free,/home/ubuntu/,$avg_path_size" >> "$logfiles"
 ```
 
-7. Crontab agar file berjalan setiap 1 jam
+**7. Crontab agar file berjalan setiap 1 jam**
 ```bash
 #0 * * * * /home/ubuntu/soal_4/aggregate_minutes_to_hourly_log.sh
 ```
+
+**8. Mengatur permission file agar hanya user pemilik yang dapat membaca file**
+```bash
+chmod 600 "$logfiles"
+```
+Revisi : Sebelumnya belum ada command untuk mengatur permission file
+
+**Hasil akhir setelah menjalankan `aggregate_minutes_to_hourly_log.sh` sebanyak 1 kali**
+![Screenshot from 2024-03-30 16-25-34](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/b1416c50-bfce-4c31-9339-87f907286f9d)
+
+**Isi dari `metrics_agg_.log`**
+![Screenshot from 2024-03-30 19-08-04](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/122516105/2bac7bbe-e0a7-4495-9c2a-f61781359fcc)
+
