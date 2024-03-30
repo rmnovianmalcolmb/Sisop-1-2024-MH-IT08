@@ -1,3 +1,11 @@
+
+# LAPORAN RESMI SOAL SHIFT MODUL 1 SISTEM OPERASI 2024
+## ANGGOTA KELOMPOK
+
+1. Naufal Syafi' Hakim          (5027231022)
+2. RM. Novian Malcolm Bayuputra (5027231035)
+3. Abid Ubaidillah Adam         (5027231089)
+   
 ## SOAL NOMOR 1
 
 Tujuan dari script bash ini untuk melakukan analisis terhadap data penjualan yang tersimpan dalam file CSV. Skrip ini menggunakan beberapa perintah untuk mengekstrak wawasan berharga dari data penjualan.
