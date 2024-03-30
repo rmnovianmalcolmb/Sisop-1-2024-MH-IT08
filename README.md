@@ -197,6 +197,10 @@ Contoh penggunaan program `login.sh` oleh user biasa :
 
 ![Screenshot from 2024-03-30 01-32-28](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/8dcf03b4-120f-4f8d-9d0c-3bf063208006)
 
+Catatan pada `auth.log` apabila terdapat user yang login berhasil atau gagal :
+
+![Screenshot from 2024-03-30 01-59-00](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/bbab2d3e-216d-4ab4-81f7-ded982637f48)
+
 ### register.sh
 Program ini digunakan untuk meregistrasi/mendaftarkan user pada file users.txt
 1. **Fungsi unique_email** 
