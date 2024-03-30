@@ -11,19 +11,20 @@ login_user() {
         stored_passwd=$(grep "^$email," users.txt | cut -d',' -f5)
         if [ "$passwd" = "$(echo "$stored_passwd" | base64 --decode)" ]; then
             echo "Login successful!"
-            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN SUCCESS" >> auth.log
+            echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN SUCCESS user with email $email has logged in successfully" >> auth.log
             if [[ "$email" == *admin* ]]; then
                 admin
             else
                 echo "You don't have admin previledge! Welcome!"
+                exit
             fi
         else
             echo "Wrong email or password."
-            echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+            echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN FAILED failed login attempt on user with email $email" >> auth.log
         fi
     else
         echo "Wrong email or password."
-        echo "$(date +%Y/%m/%d %h:%m:%s) LOGIN FAILED" >> auth.log
+        echo "$(date "+%Y/%m/%d %h:%m:%s") LOGIN FAILED failed login attempt on user with email $email" >> auth.log
     fi
 }
 
@@ -46,6 +47,7 @@ forgot() {
 }
 
 admin() {
+    while true;do
     echo "Admin Menu"
     echo "1. Add User"
     echo "2. Edit User"
@@ -56,9 +58,10 @@ admin() {
         "1") source register.sh ;;
         "2") edit_user ;;
         "3") delete_user ;;
-        "4") exit ;;
+        "4") echo "Logout" ; exit ;;
         *) echo "Invalid option" ;;
     esac
+    done
 }
 
 edit_user() {
@@ -70,10 +73,17 @@ edit_user() {
         read -p "New Security Question: " new_sec_q
         read -p "New Security Answer: " new_sec_a
         read -s -p "New Password: " new_password
+        
+        if [[ "$email_edit" == *admin* ]]; then
+        role="admin"
+    else 
+        role="user"
+    fi
+
         echo
         encrypted_password=$(echo -n "$new_password" | base64)
 
-        sed -i "/^$email_edit,/c\\$email_edit,$new_username,$new_sec_q,$new_sec_a,$encrypted_password" users.txt
+        sed -i "/^$email_edit,/c\\$email_edit,$new_username,$new_sec_q,$new_sec_a,$encrypted_password,$role" users.txt
         echo "User has been edited!"
     else
         echo "Email not found."
@@ -99,10 +109,9 @@ while true; do
     echo "3. Exit"
     read choice
     case "$choice" in
-    "1") login_user ;;
+    "1") login_user;;
     "2") forgot ;;
     "3") echo "Thank you!"; exit ;;
     *) echo "Invalid option" ;;
     esac
 done
-
