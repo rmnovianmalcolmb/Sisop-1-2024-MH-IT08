@@ -245,6 +245,9 @@ Setelah selesai dengan masalah perinputan, maka password yang sudah sesuai krite
     break
 done
 ```
+Untuk hasil dari program registrasi yang berhasil adalah sebagai berikut :
+
+![Screenshot from 2024-03-30 01-20-05](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/7c070878-9a14-4bfd-8aa0-0543619286b9)
 
 ## SOAL NOMOR 3
 
