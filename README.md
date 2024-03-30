@@ -43,8 +43,9 @@ Untuk output yang bakal keluar setelah file soal1.sh nya dijalanin itu akan sepe
 # SOAL NOMOR 2
 Tujuan dari soal ini adalah menciptakan sebuah user interface login system dan registration system yang terintegrasi dengan data pada sebuah file bernama users.txt dan catatan history login/register pad file yang bernama auth.log
 ### login.sh
-
-Fungsi login_user berfungsi apabila user memilih opsi '1' yaitu Login, dalam fungsi ini user diharuskan memasukan email dan password yang sesuai
+Program ini bertujuan untuk masuk ke dalam akun/email user yang sudah terdaftar di dalam file users.txt
+1. **Fungsi login_user**
+berfungsi apabila user memilih opsi '1' yaitu Login, dalam fungsi ini user diharuskan memasukan email dan password yang sesuai
 ```bash
 login_user() {
     echo "Enter your email:"
@@ -54,7 +55,7 @@ login_user() {
     echo
 ```
 
-apabila email dan password yang dimasukan oleh user terdapat pada users.txt maka user akan berhasil login dan tercatat di auth.log sebagai LOGIN SUCCESS sebaliknya apabila password atau username tidak sesuai dengan yang ada di users.txt maka akan tercatat sebagai LOGIN FAILED 
+Apabila email dan password yang dimasukan oleh user terdapat pada users.txt maka user akan berhasil login dan tercatat di auth.log sebagai LOGIN SUCCESS sebaliknya apabila password atau username tidak sesuai dengan yang ada di users.txt maka akan tercatat sebagai LOGIN FAILED 
 ```bash
     if grep -q "^$email," users.txt; then
         stored_passwd=$(grep "^$email," users.txt | cut -d',' -f5)
@@ -78,7 +79,8 @@ apabila email dan password yang dimasukan oleh user terdapat pada users.txt maka
 }
 ```
 
-Fungsi forgot, berjalan ketika user memilih opsi '2' sebagai opsi apabila user lupa password, dalam fungsi ini user diwajibkan menuliskan emailnya dan menjawab security question yang dibuatnya ketika registration. Apabila jawaban user benar maka program akan men-decode password yang tersimpan dalam user.txt dan menampilkannya namun apabila salah program akan memunculkan kalimat "wrong answer" dan apabila email yang dimasukan user tidak tersedia di user.txt maka akan muncul kalimat "Email not found".
+2. **Fungsi forgot**
+Fungsi ini berjalan ketika user memilih opsi '2' sebagai opsi apabila user lupa password, dalam fungsi ini user diwajibkan menuliskan emailnya dan menjawab security question yang dibuatnya ketika registration. Apabila jawaban user benar maka program akan men-decode password yang tersimpan dalam user.txt dan menampilkannya namun apabila salah program akan memunculkan kalimat "wrong answer" dan apabila email yang dimasukan user tidak tersedia di user.txt maka akan muncul kalimat "Email not found".
 ```bash
 forgot() {
     read -p "Email: " email
@@ -99,7 +101,8 @@ forgot() {
 }
 ```
 
-Fungsi admin, berjalan apabila email user yang berhasil login terdapat kata "admin" di dalamnya, terdapat 4 pilihan opsi sebagai admin menu
+3. **Fungsi admin**
+Fungsi ini berjalan apabila email user yang berhasil login terdapat kata "admin" di dalamnya, terdapat 4 pilihan opsi sebagai admin menu
 ```bash 
 admin() {
     while true;do
@@ -119,7 +122,8 @@ admin() {
     done
 }
 ```
-Fungsi edit user, berjalan ketika user admin memilih opsi '2' pada admin menu, dalam program ini admin diminta memasukkan data  baru pada email user yabg dipilih dan memperbaruinya di user.txt 
+4. **Fungsi edit user**
+Berjalan ketika user admin memilih opsi '2' pada admin menu, dalam program ini admin diminta memasukkan data  baru pada email user yabg dipilih dan memperbaruinya di user.txt 
 ```bash
 edit_user() {
     cat users.txt
@@ -147,7 +151,8 @@ edit_user() {
     fi
 }
 ```
-Fungsi delete_user, berjalan ketika user admin meilih opsi '3' pada menu admin, dalam program ini admin diminta menuliskan email data user yang ingin dihapus kemudian program akan menghapus seluruh data user tersebut di dalam file users.txt
+5. **Fungsi delete_user**
+Berjalan ketika user admin meilih opsi '3' pada menu admin, dalam program ini admin diminta menuliskan email data user yang ingin dihapus kemudian program akan menghapus seluruh data user tersebut di dalam file users.txt
 ```bash
 delete_user() {
     cat users.txt
@@ -162,7 +167,8 @@ delete_user() {
 }
 ```
 
-Fungsi utama, fungsi ini merupakan tampilan user interface dari program login.sh dimana user diminta untuk memilih opsi yang disediakan. Apabila memilih '1' maka program akan memanggil fungsi login_user, memilih '2' maka akan memanggil fungsi forgot, dan ketika memilih '3' maka program akan berhenti berjalan
+6. **Fungsi utama**
+Fungsi ini merupakan tampilan user interface dari program login.sh dimana user diminta untuk memilih opsi yang disediakan. Apabila memilih '1' maka program akan memanggil fungsi login_user, memilih '2' maka akan memanggil fungsi forgot, dan ketika memilih '3' maka program akan berhenti berjalan
 ```bash
 echo "Welcome to Login System"
 while true; do
@@ -180,9 +186,10 @@ done
 ```
 
 ### register.sh
-
-1. Fungsi untuk mengecek apakah email yang dimasukan sudah dipakai user lainnya atau belum
-```bash
+Program ini digunakan untuk meregistrasi/mendaftarkan user pada file users.txt
+1. **Fungsi unique_email** 
+Berjalan untuk mengecek apakah email yang dimasukan user sudah terdapat pada users.txt atau belum, apabila email yang dimasukan sudah terdapat pada users.txt maka program  akan mereturn nilai '1' pada fungsi utama, menuliskan pesan email sudah digunakan dan loop akan mengulangi lagi programnya dari awal
+```bash 
 unique_email(){
     if grep -q "$1" users.txt; then
         echo "Email already used, please enter a new email"
@@ -192,16 +199,17 @@ unique_email(){
     fi
 }
 ```
-
-2. Fungsi untuk mengenkripsi password menjadi base64
-```bash
+2. **Fungsi encryption** 
+Berjalan untuk meng-encode password yang diberikan user ke dalam base64
+```bash 
 encryption(){
     encrypt=$(echo -n "$1" | base64)
 }
 ```
 
-3. Fungsi utama untuk memanggil fungsi-fungsi diatas dan menjalankan interface registrasi user
-```bash 
+3. **Fungsi utama** 
+Dalam program utama ini merupakan interface dari registration.sh yang meminta user memasukkan email,username,security question,security answer dan password yang sesuai dengan ketentuan yang berlaku, apabila password tidak sesuai maka loop akan mengulangi programnya,mencatat registrasi gagal ke dalam auth.log dan meminta user memasukan password sesuai ketentuan (minimal 1 uppercase, 1 lowercase, 1 digit dan tidak kurang dari 8 karakter) 
+```bash
 while true; do
     echo "Welcome to Registration System"
     read -p "Enter your email : " email
@@ -213,32 +221,26 @@ while true; do
         read -s -p "Enter a password minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, 1 digit, 1 symbol, and not the same as username, birthdate, or name : " passwd
         echo
 
-        if [[ ${#passwd} -lt 8 || ! "$passwd" =~ [[:upper:]] || ! "$passwd" =~ [[:lower:]] || ! "$passwd" =~ [[:digit:]] || ! "$passwd" =~ [[:punct:]] ]]; then
+        if [[ ${#passwd} -lt 8 || ! "$passwd" =~ [[:upper:]] || ! "$passwd" =~ [[:lower:]] || ! "$passwd" =~ [[:digit:]] ]]; then
             echo "Password doesn't meet the requirements, please try again!"
-            echo "$(date +%Y/%m/%d %h:%m:%s) REGISTER FAILED" >> auth.log	     
+            echo "$(date "+%Y/%m/%d %h:%m:%s") REGISTER FAILED failed registration on email $email" >> auth.log	     
         else 
             break
         fi
     done
 ```
-
-4. Enkripsi password yang dimaasukan user
-```bash
+Setelah selesai dengan masalah perinputan, maka password yang sudah sesuai kriteria yang dimasukkan user akan di-encode oleh fungsi ecryption dan apabila email yang dimasukkan mengandung kata "admin" maka role user akan berganti menjadi admin lalu mencatat semua data yang dimasukkan kedalam users.txt dan menambahakan pesan registration success ke dalam auth.log
+```bash 
     encryption "$passwd"
-```
-5. Jika terdapat kata admin dalam email maka role akan berubah menjadi admin
-```bash
+
     if [[ "$email" == *admin* ]]; then
         role="admin"
     else 
         role="user"
     fi
-```
 
-6. Memasukan seluruh data kedalam user.txt
-```bash
     echo "$email,$username,$sec_q,$sec_a,$encrypt,$role" >> users.txt
-    echo "$(date +%Y/%m/%d %h:%m:%s) REGISTER SUCCESS" >> auth.log 
+    echo "$(date "+%Y/%m/%d %h:%m:%s") REGISTER SUCCESS user $username has registered successfully" >> auth.log 
     echo "User registered successfully!"
     break
 done
