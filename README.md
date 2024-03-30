@@ -80,6 +80,7 @@ Apabila email dan password yang dimasukan oleh user terdapat pada `users.txt` ma
     fi
 }
 ```
+Revisi : Perbaikan format catatan pada `auth.log` agar dapat memunculkan tanggal terjadi login dan pesan tambahan
 
 2. **Fungsi forgot**
 - Fungsi ini berjalan ketika user memilih opsi '2' sebagai opsi apabila user lupa password, dalam fungsi ini user diwajibkan menuliskan emailnya dan menjawab security question yang dibuatnya ketika registration. Apabila jawaban user benar maka program akan men-decode password yang tersimpan dalam `user.txt` dan menampilkannya namun apabila salah program akan memunculkan kalimat "wrong answer" dan apabila email yang dimasukan user tidak tersedia di `user.txt` maka akan muncul kalimat "Email not found".
@@ -128,6 +129,7 @@ admin() {
     done
 }
 ```
+Revisi : Penambahan loop agar admin tidak perlu login kembali setelah melakukan edit pada `users.txt`
 Contoh penggunaan admin menu adalah sebagai berikut :
 
 
@@ -247,7 +249,9 @@ while true; do
         fi
     done
 ```
-Setelah selesai dengan masalah perinputan, maka password yang sudah sesuai kriteria yang dimasukkan user akan di-encode oleh fungsi `ecryption` dan apabila email yang dimasukkan mengandung kata `admin` maka role user akan berganti menjadi admin lalu mencatat semua data yang dimasukkan kedalam `users.txt` dan menambahakan pesan registration success ke dalam `auth.log`
+Revisi : Menghilangkan syarat minimal 1 symbol pada password agar sesuai dengan ketentuan soal
+
+Setelah selesai dengan masalah perinputan, maka password yang sudah sesuai kriteria yang dimasukkan user akan di-encode oleh fungsi `ecryption` dan apabila email yang dimasukkan mengandung kata `admin` maka role user akan berganti menjadi admin lalu mencatat semua data yang dimasukkan kedalam `users.txt` dan menambahkan pesan registration success ke dalam `auth.log`
 ```bash 
     encryption "$passwd"
 
@@ -263,6 +267,7 @@ Setelah selesai dengan masalah perinputan, maka password yang sudah sesuai krite
     break
 done
 ```
+Revisi : Perbaikan format catatan pada `auth.log` agar dapat memunculkan tanggal terjadi register dan pesan tambahan
 Untuk hasil dari program registrasi yang berhasil adalah sebagai berikut :
 
 ![Screenshot from 2024-03-30 01-20-05](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/146155753/7c070878-9a14-4bfd-8aa0-0543619286b9)
