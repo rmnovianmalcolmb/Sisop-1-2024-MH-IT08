@@ -40,8 +40,8 @@ Untuk output yang bakal keluar setelah file soal1.sh nya dijalanin itu akan sepe
 
 ![Screenshot 2024-03-29 112651](https://github.com/rmnovianmalcolmb/Sisop-1-2024-MH-IT08/assets/150356339/246198db-aff6-45c3-adc5-7f29580518e3)
 
-# SOAL NOMOR 2
-Tujuan dari soal ini adalah menciptakan sebuah user interface login system dan registration system yang terintegrasi dengan data pada sebuah file bernama users.txt dan catatan history login/register pad file yang bernama auth.log
+## SOAL NOMOR 2
+Tujuan dari soal ini adalah menciptakan sebuah user interface login system dan registration system yang terintegrasi dengan data pada sebuah file bernama `users.txt` dan catatan history login/register pada file yang bernama `auth.log`
 ### login.sh
 Program ini bertujuan untuk masuk ke dalam akun/email user yang sudah terdaftar di dalam file `users.txt`
 1. **Fungsi login_user**
@@ -204,7 +204,7 @@ Catatan pada `auth.log` apabila terdapat user yang login berhasil atau gagal :
 ### register.sh
 Program ini digunakan untuk meregistrasi/mendaftarkan user pada file users.txt
 1. **Fungsi unique_email** 
-Berjalan untuk mengecek apakah email yang dimasukan user sudah terdapat pada `users.txt` atau belum, apabila email yang dimasukan sudah terdapat pada `users.txt` maka program  akan mereturn nilai '1' pada fungsi utama, menuliskan pesan email sudah digunakan dan loop akan mengulangi lagi programnya dari awal
+Berjalan untuk mengecek apakah email yang dimasukan user sudah terdapat pada `users.txt` atau belum, apabila email yang dimasukan sudah terdapat pada `users.txt` maka program  akan mereturn nilai '1' pada fungsi utama, menuliskan pesan "email sudah digunakan" dan loop akan mengulangi lagi programnya dari awal
 ```bash 
 unique_email(){
     if grep -q "$1" users.txt; then
